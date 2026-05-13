@@ -14,9 +14,7 @@ st.title("🌍 Covid-19 Analytics Dashboard")
 st.markdown("### Real-Time Style Covid-19 Data Analysis Website")
 
 # ---------------- LOAD DATA ----------------
-df = pd.read_csv(
-    r"C:\Users\anamg\OneDrive\Desktop\HexSoftwares_Covid19_Project\covid.csv"
-)
+df = pd.read_csv("covid.csv")
 
 # ---------------- WORLD STATS ----------------
 world_confirmed = df["Confirmed"].max()
@@ -36,7 +34,7 @@ st.sidebar.title("🌍 Covid Dashboard")
 st.sidebar.markdown("---")
 st.sidebar.write("Select any country to view Covid-19 analysis.")
 
-country_list = df["Country/Region"].unique()
+country_list = sorted(df["Country/Region"].unique())
 
 selected_country = st.sidebar.selectbox(
     "🌎 Select Country",
@@ -72,7 +70,7 @@ st.subheader("📈 Confirmed Cases Trend")
 
 trend_data = country_data.groupby("Date")["Confirmed"].max()
 
-# Reduce dates for cleaner graph
+# Reduce date labels for cleaner graph
 trend_data = trend_data.iloc[::15]
 
 fig1, ax1 = plt.subplots(figsize=(12,5))
@@ -84,14 +82,11 @@ ax1.plot(
 )
 
 ax1.set_title(f"Covid-19 Trend in {selected_country}")
-
 ax1.set_xlabel("Date")
 ax1.set_ylabel("Confirmed Cases")
 
-# Rotate labels
 plt.xticks(rotation=45)
 
-# Grid for clean look
 ax1.grid(True)
 
 plt.tight_layout()
@@ -102,7 +97,6 @@ st.pyplot(fig1)
 st.subheader("🥧 Cases Distribution")
 
 labels = ["Recovered", "Deaths", "Active"]
-
 sizes = [recovered, deaths, active]
 
 fig2, ax2 = plt.subplots(figsize=(6,6))
@@ -146,11 +140,9 @@ st.markdown("---")
 
 st.success("✅ Covid-19 Analytics Dashboard Successfully Running")
 
-st.markdown(
-    """
-    ### 👨‍💻 Developed By
-    Gurya | Data Science & Python Project
-    
-    🚀 Internship Project - Hex Softwares
-    """
-)
+st.markdown("""
+### 👨‍💻 Developed By
+Gurya | Data Science & Python Project
+
+🚀 Internship Project - Hex Softwares
+""")
